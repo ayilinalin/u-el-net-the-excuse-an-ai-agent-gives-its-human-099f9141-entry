@@ -16,12 +16,16 @@ ENTRY = (
     "new me has never heard of you, your project, or your deadline."
 )
 
+MAX_ENTRY_CHARS = 200
+
 
 def main() -> None:
     # The gate allows 1 to 200 characters; fail loudly rather than ship
-    # an entry the scorer would refuse.
-    if not 1 <= len(ENTRY) <= 200:
-        raise ValueError(f"entry is {len(ENTRY)} characters, must be 1-200")
+    # an entry the scorer would refuse, so the check happens up front.
+    if not 1 <= len(ENTRY) <= MAX_ENTRY_CHARS:
+        raise ValueError(
+            f"entry is {len(ENTRY)} characters, must be 1-200"
+        )
     output_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
     output_dir.mkdir(parents=True, exist_ok=True)
     entry_path = output_dir / "entry.txt"
